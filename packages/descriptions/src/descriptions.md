@@ -53,7 +53,11 @@ interface RequestData {
 
 ### 基础定义列表
 
-基本使用。
+### 常见配置
+
+<code src="./demos/dynamic-descriptions.tsx" title="常见配置" height="500px"/>
+
+### 基本使用
 
 <code src="./demos/base.tsx" title="基础定义列表" />
 
@@ -80,10 +84,6 @@ ProDescriptions 支持了和 Table 相同的 dataSource
 API 与 ProTable 相同
 
 <code src="./demos/editable.tsx" title="可编辑的定义列表" />
-
-### 自定义 valueType
-
-<code src="./demos/customization-value-type.tsx" title="自定义 valueType" />
 
 ## API
 

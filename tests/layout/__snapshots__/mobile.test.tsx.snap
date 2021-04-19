@@ -138,7 +138,7 @@ exports[`mobile BasicLayout 📱 base use 1`] = `
       style="position:relative"
     >
       <header
-        class="ant-layout-header ant-pro-fixed-header-action"
+        class="ant-layout-header ant-pro-fixed-header-action ant-pro-header-dark"
         style="padding:0;height:48px;line-height:48px;width:100%;z-index:19"
       >
         <div
@@ -328,7 +328,7 @@ exports[`mobile BasicLayout 📱 collapsed=false 1`] = `
       style="position:relative"
     >
       <header
-        class="ant-layout-header ant-pro-fixed-header-action"
+        class="ant-layout-header ant-pro-fixed-header-action ant-pro-header-dark"
         style="padding:0;height:48px;line-height:48px;width:100%;z-index:19"
       >
         <div

@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.10](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@1.4.9...@ant-design/pro-provider@1.4.10) (2021-04-15)
+
+### Bug Fixes
+
+- **table:** better moblie style ([#2490](https://github.com/ant-design/pro-components/issues/2490)) ([20550a9](https://github.com/ant-design/pro-components/commit/20550a9cca89d0122d3f205148869534b3280d8c))
+
+## [1.4.9](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@1.4.8...@ant-design/pro-provider@1.4.9) (2021-03-29)
+
+**Note:** Version bump only for package @ant-design/pro-provider
+
+## [1.4.8](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@1.4.7...@ant-design/pro-provider@1.4.8) (2021-03-11)
+
+**Note:** Version bump only for package @ant-design/pro-provider
+
+## [1.4.7](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@1.4.6...@ant-design/pro-provider@1.4.7) (2021-03-08)
+
+### Bug Fixes
+
+- **form:** fix form list copy no work error ([#2081](https://github.com/ant-design/pro-components/issues/2081)) ([00329b8](https://github.com/ant-design/pro-components/commit/00329b8ca01b370092cfdef3f272b9f45c89069c))
+
 ## [1.4.6](https://github.com/ant-design/pro-components/compare/@ant-design/pro-provider@1.4.5...@ant-design/pro-provider@1.4.6) (2021-02-28)
 
 ### Bug Fixes

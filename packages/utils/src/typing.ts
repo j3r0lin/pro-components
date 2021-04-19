@@ -46,7 +46,8 @@ export type ProFieldValueType =
   | 'switch'
   | 'fromNow'
   | 'image'
-  | 'jsonCode';
+  | 'jsonCode'
+  | 'color';
 
 export type RequestOptionsType = {
   label?: React.ReactNode;
@@ -67,7 +68,7 @@ export type ProFieldValueObjectType = {
   status?: 'normal' | 'active' | 'success' | 'exception' | undefined;
   locale?: string;
   /** Percent */
-  showSymbol?: boolean;
+  showSymbol?: ((value: any) => boolean) | boolean;
   showColor?: boolean;
   precision?: number;
   moneySymbol?: string;
@@ -89,7 +90,7 @@ export type ProSchemaValueEnumType = {
 };
 
 /**
- * 支持 Map 和 Object
+ * 支持 Map 和 Record<string,any>
  *
  * @name ValueEnum 的类型
  */
@@ -121,13 +122,13 @@ export type ProSchemaComponentTypes =
 export type ProCoreActionType<T = {}> = {
   /** @name 刷新 */
   reload: (resetPageIndex?: boolean) => void;
-  /** @name 刷新并清空 */
+  /** @name 刷新并清空，只清空页面，不包括表单 */
   reloadAndRest?: () => void;
-  /** @name 重置 */
+  /** @name 重置任何输入项，包括表单 */
   reset?: () => void;
-
   /** @name 清空选择 */
   clearSelected?: () => void;
+  /** @name p页面的信息都在里面 */
   pageInfo?: PageInfo;
 } & Omit<
   UseEditableUtilType,
@@ -139,13 +140,13 @@ type ProSchemaValueType<ValueType> = (ValueType | ProFieldValueType) | ProFieldV
 
 /** 各个组件公共支持的 render */
 export type ProSchema<
-  T = unknown,
-  Extra = unknown,
-  V = ProSchemaComponentTypes,
+  Entity = Record<string, any>,
+  ExtraProps = unknown,
+  ComponentsType = ProSchemaComponentTypes,
   ValueType = 'text'
 > = {
-  /** @name 确定这个列的唯一值 */
-  key?: React.ReactText;
+  /** @name 确定这个列的唯一值,一般用于 dataIndex 重复的情况 */
+  key?: React.Key;
   /**
    * 支持一个数字，[a,b] 会转化为 obj.a.b
    *
@@ -155,7 +156,7 @@ export type ProSchema<
 
   /** 选择如何渲染相应的模式 */
   valueType?:
-    | ((entity: T, type: V) => ProSchemaValueType<ValueType>)
+    | ((entity: Entity, type: ComponentsType) => ProSchemaValueType<ValueType>)
     | ProSchemaValueType<ValueType>;
 
   /**
@@ -164,7 +165,11 @@ export type ProSchema<
    * @name 标题
    */
   title?:
-    | ((schema: ProSchema<T, Extra>, type: V, dom: React.ReactNode) => React.ReactNode)
+    | ((
+        schema: ProSchema<Entity, ExtraProps>,
+        type: ComponentsType,
+        dom: React.ReactNode,
+      ) => React.ReactNode)
     | React.ReactNode;
 
   /** @name 展示一个 icon，hover 是展示一些提示信息 */
@@ -173,81 +178,102 @@ export type ProSchema<
   /** @deprecated 你可以使用 tooltip，这个更改是为了与 antd 统一 */
   tip?: string;
 
-  render?: (
-    dom: React.ReactNode,
-    entity: T,
-    index: number,
-    action: ProCoreActionType,
-    schema: ProSchema<T, Extra> & { isEditable?: boolean; type: V },
-  ) => React.ReactNode;
-
   /**
-   * 返回一个node，会自动包裹 value 和 onChange
+   * 支持 object 和Map，Map 是支持其他基础类型作为 key
    *
-   * @name 自定义编辑模式
+   * @name 映射值的类型
    */
-  renderFormItem?: (
-    schema: ProSchema<T, Extra> & {
-      isEditable?: boolean;
-      index?: number;
-      type: V;
-    },
-    config: {
-      onSelect?: (value: any) => void;
-      type: V;
-      recordKey?: React.Key | React.Key[];
-      record?: T;
-      isEditable?: boolean;
-      defaultRender: (newItem: ProSchema<T, Extra>) => JSX.Element | null;
-    },
-    form: FormInstance,
-  ) => React.ReactNode;
+  valueEnum?:
+    | ((row: Entity) => ProSchemaValueEnumObj | ProSchemaValueEnumMap)
+    | ProSchemaValueEnumObj
+    | ProSchemaValueEnumMap;
 
-  /**
-   * 必须要返回 string
-   *
-   * @name 自定义 render
-   */
-  renderText?: (text: any, record: T, index: number, action: ProCoreActionType) => any;
   /** 自定义的 fieldProps render */
   fieldProps?:
     | ((
         form: FormInstance<any>,
-        config: ProSchema<T, Extra> & {
-          type: V;
+        config: ProSchema<Entity, ExtraProps> & {
+          type: ComponentsType;
           isEditable?: boolean;
           rowKey?: string;
           rowIndex: number;
         },
-      ) => Object)
-    | Object;
+      ) => Record<string, any>)
+    | Record<string, any>;
 
-  /** 自定义的 formItemProps render */
+  /** @name 自定义的 formItemProps */
   formItemProps?:
     | FormItemProps
     | ((
         form: FormInstance<any>,
-        config: ProSchema<T, Extra> & {
-          type: V;
+        config: ProSchema<Entity, ExtraProps> & {
+          type: ComponentsType;
           isEditable?: boolean;
           rowKey?: string;
           rowIndex: number;
         },
       ) => FormItemProps);
 
+  /**
+   * 修改的数据是会被 valueType 消费
+   *
+   * @name 自定义 render 内容
+   */
+  renderText?: (text: any, record: Entity, index: number, action: ProCoreActionType) => any;
+  /**
+   * Render 方法只管理的只读模式，编辑模式需要使用 renderFormItem
+   *
+   * @name 自定义只读模式的dom
+   */
+  render?: (
+    dom: React.ReactNode,
+    entity: Entity,
+    index: number,
+    action: ProCoreActionType | undefined,
+    schema: ProSchema<Entity, ExtraProps, ComponentsType, ValueType> & {
+      isEditable?: boolean;
+      type: ComponentsType;
+    },
+  ) => React.ReactNode;
+
+  /**
+   * 返回一个 ReactNode，会自动包裹 value 和 onChange
+   *
+   * @name 自定义编辑模式
+   */
+  renderFormItem?: (
+    schema: ProSchema<Entity, ExtraProps, ComponentsType, ValueType> & {
+      isEditable?: boolean;
+      index?: number;
+      type: ComponentsType;
+    },
+    config: {
+      onSelect?: (value: any) => void;
+      type: ComponentsType;
+      recordKey?: React.Key | React.Key[];
+      record?: Entity;
+      isEditable?: boolean;
+      defaultRender: (
+        newItem: ProSchema<Entity, ExtraProps, ComponentsType, ValueType>,
+      ) => JSX.Element | null;
+    },
+    form: FormInstance,
+  ) => React.ReactNode;
+
   /** 可编辑表格是否可编辑 */
-  editable?: false | ProTableEditableFnType<T>;
-  /** @name 映射值的类型 */
-  valueEnum?:
-    | ((row: T) => ProSchemaValueEnumObj | ProSchemaValueEnumMap)
-    | ProSchemaValueEnumObj
-    | ProSchemaValueEnumMap;
+  editable?: false | ProTableEditableFnType<Entity>;
 
   /** @name 从服务器请求枚举 */
   request?: ProFieldRequestData;
-
   /** @name 从服务器请求的参数，改变了会触发 reload */
   params?: Record<string, any>;
-  /** @name 隐藏在 descriptions */
+
+  /** @name 在 descriptions 隐藏 */
   hideInDescriptions?: boolean;
-} & Extra;
+  /** @name 在 Form 中隐藏 */
+  hideInForm?: boolean;
+  /** @name 在 table 中隐藏 */
+  hideInTable?: boolean;
+  /** @name 在 table的查询表单 中隐藏 */
+  hideInSearch?: boolean;
+} & ExtraProps;

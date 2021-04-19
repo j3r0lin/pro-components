@@ -8,7 +8,7 @@ nav:
   path: /components
 ---
 
-# ProFormFields
+# 数据结构化
 
 我们还提供了用来进行结构化数据的录入:
 
@@ -59,7 +59,7 @@ ProFormList 与 [Form.List](https://ant.design/components/form-cn/#Form.List) AP
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | itemRender | 自定义 Item，可以用来将 action 放到别的地方 | `doms,listMeta)=> ReactNode` | - |
-| creatorRecord | 新建一行的默认值 | `Record<string, any>` | - |
+| creatorRecord | 新建一行的默认值 | `Record<string, any> \| () => Record<string, any>` | - |
 | creatorButtonProps | 新建一行按钮的配置 | `buttonProps & { creatorButtonText:string,position:"top"\|"bottom" }` | `{creatorButtonText:"新建一行"}` |
 | label | 与 From.Item 相同 | `ReactNode` | - |
 | name | list 在 form 中的值，必填项 | `NamePath` | - |
@@ -107,6 +107,10 @@ name 参数必须要是一个数组，如果是嵌套的结构可以这样配置
 ```
 
 ## 代码示例
+
+### 自定义 List
+
+<code src="./demos/customize.tsx" heigh="1774px" title="ProForm.List" />
 
 ### 基本使用
 

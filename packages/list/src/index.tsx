@@ -37,6 +37,7 @@ export type ProListProps<RecordType, U extends ParamsType> = Omit<
     tooltip?: string;
     metas?: ProListMetas<RecordType>;
     showActions?: 'hover' | 'always';
+    showExtra?: 'hover' | 'always';
   };
 
 export type Key = React.Key;
@@ -58,6 +59,7 @@ function ProList<
     search = false,
     expandable,
     showActions,
+    showExtra,
     rowSelection: propRowSelection = false,
     pagination: propsPagination = false,
     itemLayout,
@@ -90,7 +92,8 @@ function ProList<
         }
       }
       columns.push({
-        key,
+        listKey: key,
+        dataIndex: meta?.dataIndex || key,
         ...meta,
         valueType,
       });
@@ -141,6 +144,7 @@ function ProList<
               expandable={expandable}
               rowSelection={propRowSelection === false ? undefined : rowSelection}
               showActions={showActions}
+              showExtra={showExtra}
               pagination={pagination as PaginationProps}
               itemLayout={itemLayout}
               loading={loading}

@@ -1,12 +1,14 @@
 import { DownloadOutlined, ReloadOutlined, SettingOutlined } from '@ant-design/icons';
 import type { IntlType } from '@ant-design/pro-provider';
 import { useIntl } from '@ant-design/pro-provider';
+import { omitUndefined } from '@ant-design/pro-utils';
 import type { TableColumnType } from 'antd';
 import { Tooltip } from 'antd';
+import isDeepEqualReact from 'fast-deep-equal/es6/react';
 import type { SearchProps } from 'antd/lib/input';
 import React, { useEffect, useMemo } from 'react';
 import Container from '../../container';
-import type { ActionType, ProColumns } from '../../typing';
+import type { ActionType, ProColumns, ProTableProps } from '../../typing';
 import ColumnSetting from '../ColumnSetting';
 import type { ExportToExcelActionProps } from '../ExportToExcelAction';
 import ExportToExcelAction from '../ExportToExcelAction';
@@ -28,7 +30,7 @@ export type OptionConfig<T = unknown, ValueType = 'text'> = {
         checkable?: boolean;
       };
   search?: (SearchProps & { name?: string }) | boolean;
-  export?:
+  exportData?:
     | boolean
     | ((
         ...args: [...Parameters<ExportToExcelActionExport<T, ValueType>>, ActionType?]
@@ -67,7 +69,7 @@ export type ToolBarProps<T = unknown, ValueType = 'text'> = {
 
 function getButtonText({
   intl,
-}: OptionConfig & {
+}: OptionConfig<any> & {
   intl: IntlType;
 }) {
   return {
@@ -87,7 +89,7 @@ function getButtonText({
       text: intl.getMessage('tableToolBar.fullScreen', '全屏'),
       icon: <FullScreenIcon />,
     },
-    export: {
+    exportData: {
       text: intl.getMessage('tableToolBar.export.tooltip', '导出'),
       icon: <DownloadOutlined />,
     },
@@ -271,4 +273,128 @@ function ToolBar<T, ValueType>({
   );
 }
 
-export default ToolBar;
+export type ToolbarRenderProps<T> = {
+  hideToolbar: boolean;
+  onFormSearchSubmit: (params: any) => void;
+  searchNode: React.ReactNode;
+  tableColumn: any[];
+  tooltip?: string;
+  selectedRows: T[];
+  selectedRowKeys: React.Key[];
+  headerTitle: React.ReactNode;
+  toolbar: ProTableProps<T, any, any>['toolbar'];
+  options: ProTableProps<T, any, any>['options'];
+  toolBarRender?: ToolBarProps<T>['toolBarRender'];
+  actionRef: React.MutableRefObject<ActionType | undefined>;
+};
+
+/** 这里负责与table交互，并且减少 render次数 */
+class ToolbarRender<T> extends React.Component<ToolbarRenderProps<T>> {
+  onSearch = (keyword: string) => {
+    const { options, onFormSearchSubmit, actionRef } = this.props;
+    if (!options || !options.search) {
+      return;
+    }
+    const { name = 'keyword' } = options.search === true ? {} : options.search;
+
+    // 查询的时候的回到第一页
+    actionRef?.current?.setPageInfo?.({
+      current: 1,
+    });
+
+    onFormSearchSubmit(
+      omitUndefined({
+        // ...formSearch,
+        _timestamp: Date.now(),
+        [name]: keyword,
+      }),
+    );
+  };
+  isEquals = (next: ToolbarRenderProps<T>) => {
+    const {
+      hideToolbar,
+      tableColumn,
+      options,
+      tooltip,
+      toolbar,
+      selectedRows,
+      selectedRowKeys,
+      headerTitle,
+      actionRef,
+      toolBarRender,
+    } = this.props;
+
+    return isDeepEqualReact(
+      {
+        hideToolbar,
+        tableColumn,
+        options,
+        tooltip,
+        toolbar,
+        selectedRows,
+        selectedRowKeys,
+        headerTitle,
+        actionRef,
+        toolBarRender,
+      },
+      {
+        hideToolbar: next.hideToolbar,
+        tableColumn: next.tableColumn,
+        options: next.options,
+        tooltip: next.tooltip,
+        toolbar: next.toolbar,
+        selectedRows: next.selectedRows,
+        selectedRowKeys: next.selectedRowKeys,
+        headerTitle: next.headerTitle,
+        actionRef: next.actionRef,
+        toolBarRender: next.toolBarRender,
+      },
+    );
+  };
+  shouldComponentUpdate = (next: ToolbarRenderProps<T>) => {
+    if (next.searchNode) {
+      return true;
+    }
+    return !this.isEquals(next);
+  };
+
+  render = () => {
+    const {
+      hideToolbar,
+      tableColumn,
+      options,
+      searchNode,
+      tooltip,
+      toolbar,
+      selectedRows,
+      selectedRowKeys,
+      headerTitle,
+      actionRef,
+      toolBarRender,
+    } = this.props;
+
+    // 不展示 toolbar
+    if (hideToolbar) {
+      return null;
+    }
+    return (
+      <ToolBar<T, 'text'>
+        tooltip={tooltip}
+        columns={tableColumn}
+        options={options}
+        headerTitle={headerTitle}
+        action={actionRef}
+        onSearch={this.onSearch}
+        selectedRows={selectedRows}
+        selectedRowKeys={selectedRowKeys}
+        toolBarRender={toolBarRender}
+        toolbar={{
+          filter: searchNode,
+          ...toolbar,
+        }}
+      />
+    );
+  };
+}
+
+export default ToolbarRender;

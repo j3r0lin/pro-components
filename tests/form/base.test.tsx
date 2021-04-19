@@ -1,11 +1,13 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import ProForm, {
   ProFormText,
   ProFormCaptcha,
   ProFormDatePicker,
   ProFormDependency,
   ProFormSelect,
+  ProFormColorPicker,
+  ProFormField,
 } from '@ant-design/pro-form';
 import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
@@ -95,6 +97,19 @@ describe('ProForm', () => {
     await waitForComponentToPaint(wrapper);
     expect(wrapper.render()).toMatchSnapshot();
   });
+
+  it('📦 submit props actionsRender is one', async () => {
+    const wrapper = mount(
+      <ProForm
+        submitter={{
+          render: () => [<a>test</a>],
+        }}
+      />,
+    );
+    await waitForComponentToPaint(wrapper);
+    expect(wrapper.render()).toMatchSnapshot();
+  });
+
   it('📦 ProForm support namePath is array', async () => {
     const fn = jest.fn();
     const wrapper = mount(
@@ -565,6 +580,28 @@ describe('ProForm', () => {
     expect(fn).not.toBeCalled();
   });
 
+  it('📦 ProFormField support onChange', async () => {
+    const fn = jest.fn();
+    const wrapper = mount(
+      <ProForm onValuesChange={fn}>
+        <ProFormField name="phone2">
+          <Input id="testInput" />
+        </ProFormField>
+      </ProForm>,
+    );
+
+    await waitForComponentToPaint(wrapper);
+
+    act(() => {
+      wrapper.find('Input#testInput').simulate('change', {
+        target: {
+          value: 'test',
+        },
+      });
+    });
+    expect(fn).toBeCalled();
+  });
+
   it('📦 DatePicker', async () => {
     const onFinish = jest.fn();
     const wrapper = mount(
@@ -694,7 +731,7 @@ describe('ProForm', () => {
         onValuesChange={async (values) => {
           console.log(values);
           //  {"disabled": undefined, "key": "all", "label": "全部", "value": "all"}
-          onFinish(values['userQuery'][0].label);
+          onFinish(values.userQuery[0].label);
         }}
       >
         <ProFormSelect.SearchSelect
@@ -815,6 +852,85 @@ describe('ProForm', () => {
     await waitForComponentToPaint(wrapper);
     expect(wrapper.find('.ant-select-item').length).toBe(4);
   });
+
+  it('📦 SearchSelect support onClear', async () => {
+    const onSearch = jest.fn();
+    const wrapper = mount(
+      <ProForm onValuesChange={(e) => console.log(e)}>
+        <ProFormSelect.SearchSelect
+          name="userQuery"
+          label="查询选择器"
+          showSearch
+          fieldProps={{
+            searchOnFocus: true,
+            onSearch: (e) => onSearch(e),
+          }}
+          valueEnum={{
+            all: { text: '全部', status: 'Default' },
+            open: {
+              text: '未解决',
+              status: 'Error',
+            },
+            closed: {
+              text: '已解决',
+              status: 'Success',
+            },
+            processing: {
+              text: '解决中',
+              status: 'Processing',
+            },
+          }}
+        />
+      </ProForm>,
+    );
+    await waitForComponentToPaint(wrapper);
+
+    act(() => {
+      wrapper.find('.ant-select-selection-search-input').simulate('change', {
+        target: {
+          value: '全',
+        },
+      });
+    });
+    await waitForComponentToPaint(wrapper);
+
+    expect(onSearch).toBeCalledWith('全');
+
+    act(() => {
+      wrapper.find('.ant-select-selector').simulate('mousedown');
+      wrapper.update();
+    });
+    expect(wrapper.find('.ant-select-item-option-content div span').text()).toBe('全');
+
+    await waitForComponentToPaint(wrapper);
+
+    expect(wrapper.find('.ant-select-item').length).toBe(1);
+
+    act(() => {
+      wrapper.find('.ant-select-item-option-content div span').simulate('click');
+      wrapper.update();
+    });
+
+    await waitForComponentToPaint(wrapper);
+
+    act(() => {
+      wrapper.find('.ant-select').simulate('mouseenter');
+      wrapper.update();
+    });
+    await waitForComponentToPaint(wrapper);
+
+    act(() => {
+      wrapper.find('span.ant-select-clear').last().simulate('mousedown');
+    });
+
+    act(() => {
+      wrapper.find('.ant-select-selector').simulate('mousedown');
+      wrapper.update();
+    });
+    await waitForComponentToPaint(wrapper);
+    expect(wrapper.find('.ant-select-item').length).toBe(4);
+  });
+
   it('📦 SearchSelect support searchOnFocus', async () => {
     const onSearch = jest.fn();
     const wrapper = mount(
@@ -1154,5 +1270,42 @@ describe('ProForm', () => {
     await waitForComponentToPaint(wrapper);
 
     expect(onFinish).toBeCalledWith('open');
+  });
+
+  it('📦 ColorPicker support rgba', async () => {
+    const onFinish = jest.fn();
+    const wrapper = mount(
+      <ProForm
+        onValuesChange={async (values) => {
+          onFinish(values?.color);
+        }}
+      >
+        <ProFormColorPicker name="color" label="颜色选择" />
+      </ProForm>,
+    );
+    await waitForComponentToPaint(wrapper);
+
+    act(() => {
+      wrapper.find('.ant-pro-field-color-picker').simulate('click');
+      wrapper.update();
+    });
+    await waitForComponentToPaint(wrapper);
+    // 选中第一个
+    act(() => {
+      wrapper.find('.flexbox-fix').at(2).find('div span div').at(2).simulate('click');
+    });
+    await waitForComponentToPaint(wrapper, 100);
+
+    expect(onFinish).toBeCalledWith('#5b8ff9');
+
+    act(() => {
+      wrapper.find('#rc-editable-input-5').simulate('change', {
+        target: {
+          value: 2,
+        },
+      });
+    });
+    await waitForComponentToPaint(wrapper, 100);
+    expect(onFinish).toBeCalledWith('rgba(91, 143, 249, 0.02)');
   });
 });

@@ -47,7 +47,7 @@ export interface SearchSelectProps<T = Record<string, any>>
    *
    * @default 请输入关键字搜索
    */
-  placeholder?: string;
+  placeholder?: any;
   /**
    * 是否在输入框聚焦时触发搜索
    *
@@ -83,12 +83,15 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
     onChange,
     searchOnFocus = false,
     resetAfterSelect = false,
+    optionFilterProp = 'label',
+    optionLabelProp = 'label',
     className,
     disabled,
     options,
     fetchData,
     resetData,
     prefixCls: customizePrefixCls,
+    onClear,
     ...restProps
   } = props;
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
@@ -148,7 +151,6 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
       );
     });
   };
-
   return (
     <Select<any>
       ref={ref}
@@ -156,6 +158,12 @@ const SearchSelect = <T,>(props: SearchSelectProps<T[]>, ref: any) => {
       allowClear
       disabled={disabled}
       mode={mode}
+      optionFilterProp={optionFilterProp}
+      optionLabelProp={optionLabelProp}
+      onClear={() => {
+        onClear?.();
+        fetchData('');
+      }}
       {...restProps}
       onSearch={
         restProps?.showSearch

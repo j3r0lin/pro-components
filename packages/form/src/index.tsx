@@ -20,6 +20,7 @@ import ProFormFieldSet from './components/FieldSet';
 import type { ProFormCaptchaProps } from './components/Captcha';
 import ProFormCaptcha from './components/Captcha';
 import ProFormDependency from './components/Dependency';
+import ProFormColorPicker from './components/ColorPicker';
 import type { ProFormDependencyProps } from './components/Dependency';
 
 import type { ProFormProps } from './layouts/ProForm';
@@ -36,6 +37,8 @@ import DrawerForm from './layouts/DrawerForm';
 import type { ProFormListProps } from './components/List';
 import ProFormList from './components/List';
 import type { FormInstance, FormItemProps, FormProps } from './BaseForm';
+import type { ProFormLayoutType, ProFormColumnsType } from './components/SchemaForm';
+import BetaSchemaForm from './components/SchemaForm';
 import './index.less';
 
 export type {
@@ -45,6 +48,7 @@ export type {
   ModalFormProps,
   ProFormProps,
   StepFormProps,
+  ProFormLayoutType,
   StepsFormProps,
   QueryFilterProps,
   ProFormFieldSetProps,
@@ -53,6 +57,7 @@ export type {
   FormItemProps,
   FormInstance,
   ProFormListProps,
+  ProFormColumnsType,
 };
 
 const ProFormGroup = ProForm.Group;
@@ -78,9 +83,11 @@ export {
   ProFormSlider,
   ProFormFieldSet,
   ProFormCaptcha,
+  ProFormColorPicker,
   ProFormDateTimeRangePicker,
   ProFormDependency,
   ProFormGroup,
+  BetaSchemaForm,
   // layouts
   QueryFilter,
   LightFilter,

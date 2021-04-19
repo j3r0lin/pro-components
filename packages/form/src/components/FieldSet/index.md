@@ -8,9 +8,9 @@ nav:
   path: /components
 ---
 
-# ProFormFields
+# ProFormFields 表单项
 
-一个表单除了 Form 之外还是需要一系列的表单项，ProForm 自带了数量可观的表单项, 这些组件本质上是 Form.Item 和 组件的结合，我们可以帮他们当成一个 FromItem 来使用，并且支持各种 `props`。每个表单项都支持 `fieldProps` 属性来支持设置输入组件的`props`。 我们支持了 `placeholder` 的透传，你可以直接在组件上设置 `placeholder`。
+一个表单除了 Form 之外还是需要一系列的表单项，ProForm 自带了数量可观的表单项, 这些组件本质上是 Form.Item 和 组件的结合，我们可以帮他们当成一个 FormItem 来使用，并且支持各种 `props`。每个表单项都支持 `fieldProps` 属性来支持设置输入组件的`props`。 我们支持了 `placeholder` 的透传，你可以直接在组件上设置 `placeholder`。
 
 每个表单项同时也支持了 `readonly` ，不同的组件会有不同的只读样式，与 `disable` 相比 `readonly` 展示更加友好。生成的 dom 也更小，比如 ProFormDigit 会自动格式化小数位数。
 
@@ -30,13 +30,25 @@ const ProFormText = (props) => {
 
 ## 代码示例
 
-### 全量的表单项
+### 表单项
 
-<code src="./demos/components-other.tsx" heigh="1774px" title="全量的表单项"/>
+<code src="./demos/components-other.tsx" heigh="774px" title="表单项"/>
 
-### 表单项的只读
+### 查询表单
 
-<code src="./demos/components-other-readonly.tsx" heigh="1774px" title="表单项的只读" />
+<code src="./demos/search-select.tsx" heigh="774px" title="查询表单"/>
+
+### 结构化数据
+
+<code src="./demos/form-fieldset.tsx" heigh="774px" title="结构化数据"/>
+
+### 日期表单
+
+<code src="./demos/datatime.tsx" heigh="574px" title="日期表单"/>
+
+### 上传表单
+
+<code src="./demos/upload.tsx" heigh="574px" title="上传表单"/>
 
 ## API
 
@@ -55,7 +67,7 @@ ProForm 自带的 Filed ,与 valueType 基本上一一对应。
 
 在某些场景下，我们需要根据页面展示效果对输入框进行自适应处理，除此以外一个表单区域应默认使用定宽规则。
 
-![width info](https://gw.alipayobjects.com/zos/antfincdn/CyJPTSL07y/1574664269794-254db9de-2574-4361-bcf1-b82c6db0c80a.png)
+![width info](https://gw.alipayobjects.com/zos/alicdn/oEHLxX9DO/22.jpg)
 
 - `XS=104px` 适用于短数字、短文本或选项。
 - `SM=216px` 适用于较短字段录入、如姓名、电话、ID 等。

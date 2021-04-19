@@ -125,11 +125,17 @@ export default {
     '/components': [
       {
         title: '架构设计',
-        children: ['components.md'],
+        children: ['components.md', 'schema.md'],
       },
       {
         title: '布局',
-        children: ['layout', 'PageContainer/index', 'card'],
+        children: [
+          'layout',
+          'PageContainer/index',
+          'card',
+          'WaterMark/index',
+          'StatisticCard/index',
+        ],
       },
       {
         title: '数据录入',
@@ -137,6 +143,7 @@ export default {
           'form',
           'FieldSet/index',
           'Group/index',
+          'SchemaForm/index',
           'QueryFilter/index',
           'StepsForm/index',
           'ModalForm/index',
@@ -181,4 +188,5 @@ export default {
       },
     ],
   },
+  webpack5: {},
 };

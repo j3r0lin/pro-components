@@ -2,6 +2,61 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.16.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.16.2...@ant-design/pro-layout@6.16.3) (2021-04-15)
+
+### Bug Fixes
+
+- **layout:** fix headerTheme no work error when layotu=mix ([#2500](https://github.com/ant-design/pro-components/issues/2500)) ([66998bb](https://github.com/ant-design/pro-components/commit/66998bbc04e6277cfa642d4b7f885fc2ee186cf9))
+- **layout:** use better loading ([#2507](https://github.com/ant-design/pro-components/issues/2507)) ([3edb80f](https://github.com/ant-design/pro-components/commit/3edb80f38bfe214652ec88aed44c004a93cf2bf6))
+
+## [6.16.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.16.1...@ant-design/pro-layout@6.16.2) (2021-04-15)
+
+### Bug Fixes
+
+- **layout:** default remove copyright ([#2484](https://github.com/ant-design/pro-components/issues/2484)) ([196be00](https://github.com/ant-design/pro-components/commit/196be00f5dd99d01dd02c170eb3d6d4100bad907))
+- **layout:** fix openkeys=false, splitMenu no work error ([#2491](https://github.com/ant-design/pro-components/issues/2491)) ([430fb9e](https://github.com/ant-design/pro-components/commit/430fb9e7c90e6b8c9e2ecc5bfd7317bc2ca9dd73))
+
+## [6.16.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.16.0...@ant-design/pro-layout@6.16.1) (2021-04-06)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+# [6.16.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.15.5...@ant-design/pro-layout@6.16.0) (2021-03-31)
+
+### Features
+
+- **layout:** layout support request ([#2363](https://github.com/ant-design/pro-components/issues/2363)) ([9ede7b9](https://github.com/ant-design/pro-components/commit/9ede7b9a7f2ba44ce429e42a1b816daf7b53d1d7))
+
+## [6.15.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.15.4...@ant-design/pro-layout@6.15.5) (2021-03-29)
+
+### Bug Fixes
+
+- **layout:** layout add pro-header-light classname ([00e4d0c](https://github.com/ant-design/pro-components/commit/00e4d0cb0d2289a1c72bffd6a1c7dda353db2524))
+- **layout:** 修复了 pro-layout 数组扩展操作问题 ([#2289](https://github.com/ant-design/pro-components/issues/2289)) ([9f7a60c](https://github.com/ant-design/pro-components/commit/9f7a60cd5cf7aefbd301ddca2d20c5521bdff80e))
+
+## [6.15.4](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.15.3...@ant-design/pro-layout@6.15.4) (2021-03-18)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [6.15.3](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.15.2...@ant-design/pro-layout@6.15.3) (2021-03-16)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [6.15.2](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.15.1...@ant-design/pro-layout@6.15.2) (2021-03-11)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+## [6.15.1](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.15.0...@ant-design/pro-layout@6.15.1) (2021-03-11)
+
+**Note:** Version bump only for package @ant-design/pro-layout
+
+# [6.15.0](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.14.5...@ant-design/pro-layout@6.15.0) (2021-03-08)
+
+### Features
+
+- **field:** add color pick ([#2089](https://github.com/ant-design/pro-components/issues/2089)) ([e83c2ee](https://github.com/ant-design/pro-components/commit/e83c2ee36f67b66070074562f80f248cbfc1a6e3))
+- **layout:** layout support WaterMark ([#2086](https://github.com/ant-design/pro-components/issues/2086)) ([7413eee](https://github.com/ant-design/pro-components/commit/7413eee8f0f31e5911284ea1bd98941900de6d32))
+- **layout:** SettingDrawer support disableUrlParams ([#2115](https://github.com/ant-design/pro-components/issues/2115)) ([b110101](https://github.com/ant-design/pro-components/commit/b11010160bb99df83f85e54bb4da91f3f4edb5f7))
+
 ## [6.14.5](https://github.com/ant-design/pro-components/compare/@ant-design/pro-layout@6.14.4...@ant-design/pro-layout@6.14.5) (2021-02-28)
 
 ### Bug Fixes
