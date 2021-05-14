@@ -2535,7 +2535,7 @@
     npmlog "^4.1.2"
     upath "^1.2.0"
 
-"@lerna/project@3.21.0", "@lerna/project@^3.21.0":
+"@lerna/project@3.21.0":
   version "3.21.0"
   resolved "https://registry.npm.taobao.org/@lerna/project/download/@lerna/project-3.21.0.tgz#5d784d2d10c561a00f20320bcdb040997c10502d"
   integrity sha1-XXhNLRDFYaAPIDILzbBAmXwQUC0=
@@ -8901,10 +8901,10 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
-father-build@^1.18.1:
-  version "1.19.4"
-  resolved "https://registry.npm.taobao.org/father-build/download/father-build-1.19.4.tgz#82d3d0cd584e0aa3eb56880c9820140cce1dac67"
-  integrity sha1-gtPQzVhOCqPrVogMmCAUDM4drGc=
+father-build@1.19.2:
+  version "1.19.2"
+  resolved "https://registry.nlark.com/father-build/download/father-build-1.19.2.tgz#4bea41eed6c94dd8e4330c1bdf238b6a2f769e80"
+  integrity sha1-S+pB7tbJTdjkMwwb3yOLai92noA=
   dependencies:
     "@babel/core" "7.12.3"
     "@babel/plugin-proposal-class-properties" "7.12.1"
@@ -8921,7 +8921,6 @@ father-build@^1.18.1:
     "@babel/preset-react" "7.12.1"
     "@babel/preset-typescript" "7.12.1"
     "@babel/register" "7.12.1"
-    "@lerna/project" "^3.21.0"
     "@rollup/plugin-babel" "5.2.1"
     "@rollup/plugin-commonjs" "16.0.0"
     "@rollup/plugin-inject" "4.0.2"

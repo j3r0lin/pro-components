@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react';
 import type { FormProps } from 'antd';
 import type { SizeType } from 'antd/lib/config-provider/SizeContext';
 import classNames from 'classnames';
@@ -129,10 +129,12 @@ const LightFilterContainer: React.FC<{
                 },
                 onClear: () => {
                   const clearValues = {};
-                  Object.keys(moreValues).forEach((key) => {
-                    clearValues[key] = undefined;
+                  collapseItems.forEach((child: any) => {
+                    const { name } = child.props;
+                    clearValues[name] = undefined;
                   });
-                  setMoreValues(clearValues);
+
+                  onValuesChange(clearValues);
                 },
               }}
             >
